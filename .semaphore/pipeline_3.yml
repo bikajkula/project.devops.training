@@ -4,10 +4,22 @@ agent:
   machine:
     type: e1-standard-2
     os_image: ubuntu2004
+global_job_config:
+  prologue:
+    commands:
+      - checkout
 blocks:
-  - name: 'Block #1'
+  - name: Deploy
     task:
       jobs:
         - name: 'Job #1'
           commands:
-            - echo "job 1"
+            - cd examples/
+            - kubectl create namespace "bikajkula" || true
+            - kubectl config set-context --current --namespace="bikajkula"
+            - kubectl apply -f deployment.yml
+            - kubectl apply -f service.yml
+            - kubectl rollout status deployment/myapp
+            - kubectl get svc myapp
+      secrets:
+        - name: kubeconfig
