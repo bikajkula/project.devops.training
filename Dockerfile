@@ -1,5 +1,5 @@
 # Use an official Python runtime as a base image
-FROM python:3.9-slim
+FROM python:3.10-slim
 
 # Set environment variables to improve Python output and caching
 ENV PYTHONDONTWRITEBYTECODE=1
@@ -13,7 +13,7 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy the application code
-COPY . .
+COPY ./src .
 
 # Expose the port that the Flask app runs on
 EXPOSE 4000
